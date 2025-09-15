@@ -1,97 +1,132 @@
-# Library Management System (TypeScript OOP Project)
+# Student Management System
 
-A beginner-friendly **Library Management System** implemented in **TypeScript** using **Object-Oriented Programming (OOP) principles**. This project demonstrates **Encapsulation**, **Inheritance**, **Polymorphism**, and **Abstraction** in a real-world scenario.
+A full-stack CRUD (Create, Read, Update, Delete) web application for managing student records.  
+This project is built with **TypeScript** using the **MEN-T stack** (MongoDB, Express.js, Node.js, TypeScript) with **EJS** for server-side rendering.
+
+It serves as a practical demonstration of modern web development principles, including a layered architecture, dependency injection, asynchronous operations, and server-side validation.
+
+---
+
+## ✨ Features
+
+- **Full CRUD Functionality**: Add, view, edit, and delete student records.  
+- **Server-Side Pagination**: Efficiently handles large datasets by loading students page by page.  
+- **Live Search**: Instantly filter and find students by their ID or name.  
+- **Robust Server-Side Validation**: Ensures data integrity with inline error messages on the frontend.  
+- **Modern UI Notifications**: User-friendly alerts and confirmations powered by SweetAlert2.  
+- **Layered Architecture**: A clean separation of concerns into Controllers, Services, and Repositories.  
+- **Dependency Injection**: Promotes loose coupling and makes the application easier to test and maintain.  
+- **Asynchronous Operations**: Uses async/await for non-blocking database interactions, ensuring a responsive application.  
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend**: Node.js, Express.js, TypeScript  
+- **Database**: MongoDB with Mongoose ODM  
+- **Frontend**: EJS (Embedded JavaScript templates), Vanilla JavaScript (ES6+), CSS  
+- **Validation**: express-validator  
+- **Development Tools**: ts-node-dev for hot-reloading, dotenv for environment variables  
 
 ---
 
 ## 📂 Project Structure
 
-Here is the file and directory structure for the project:
+The project follows a well-organized, feature-driven folder structure that separates concerns effectively.
 
-Of course! Here is a properly formatted and structured version of your README file. The corrected alignment for the project structure and clearer separation between sections will make it much easier to read on GitHub.
-
-Markdown
-
-# Library Management System (TypeScript OOP Project)
-
-A beginner-friendly **Library Management System** implemented in **TypeScript** using **Object-Oriented Programming (OOP) principles**. This project demonstrates **Encapsulation**, **Inheritance**, **Polymorphism**, and **Abstraction** in a real-world scenario.
+```
+src/
+├─ config/         # DB connection, env config
+├─ controllers/    # Request → Response mapping
+├─ services/       # Business logic
+├─ repositories/   # DB queries (Mongo/Mongoose)
+├─ models/         # Mongoose schemas
+├─ routes/         # Express route definitions
+├─ middlewares/    # Error handling, validation, auth
+├─ views/          # EJS templates
+├─ public/         # Static assets (CSS, client-side JS)
+├─ types/          # TS interfaces, DTOs
+└─ server.ts       # Application entry point
+```
 
 ---
 
-## 📂 Project Structure
+## 🚀 Getting Started
 
-Here is the file and directory structure for the project:
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+- **Node.js**: Version 18.x or later  
+- **npm**: Included with Node.js  
+- **MongoDB**: A running instance of MongoDB (local installation or MongoDB Atlas)  
+
+### Installation & Setup
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/kannan-innovates/Student-Management.git
+```
+
+2. **Navigate to the project directory:**
+```bash
+cd Student-Management
+```
+
+3. **Install dependencies:**
+```bash
+npm install
+```
+
+4. **Set up environment variables:**
+
+Create a file named `.env` in the root of the project and add the following:
+
+```env
+# .env
+# Your MongoDB connection string
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/yourDatabaseName?retryWrites=true&w=majority
+# The port the server will run on
+PORT=5000
+```
+
+5. **Run the application:**
+
+For development (with hot-reloading):
+```bash
+npm run dev
+```
+
+The server will start on http://localhost:5000.
+
+For production:
 
 ```bash
-library-management/
-├── src/
-│   ├── models/
-│   │   ├── LibraryItem.ts
-│   │   ├── Book.ts
-│   │   └── Magazine.ts
-│   ├── entities/
-│   │   ├── Member.ts
-│   │   └── Library.ts
-│   └── index.ts
-├── package.json
-├── tsconfig.json
-└── README.md
-
-
--   **`models/`**: Contains the abstract class `LibraryItem` and its child classes (`Book`, `Magazine`).
--   **`entities/`**: Contains classes for the core system entities (`Member`, `Library`).
--   **`index.ts`**: The entry point of the project where objects are created and methods are called.
+npm run build
+npm start
+```
 
 ---
 
-## 💡 Core OOP Features
+## 🏛️ Architectural Concepts Demonstrated
 
-This project is built around the four fundamental principles of Object-Oriented Programming:
+### Request and Response Models
+DTOs like `CreateStudentDTO` and `UpdateStudentDTO` (in `src/types`) define clear data contracts for API requests.
+Mongoose models (in `src/models`) define the shape of the data returned from the database.
 
--   **Encapsulation**: The `borrowedItems` array in the `Member` class is `private`. Users can only interact with it through public methods like `borrowItem()` and `listBorrowedItems()`.
--   **Inheritance**: The `Book` and `Magazine` classes extend the abstract class `LibraryItem`, inheriting its properties and methods.
--   **Polymorphism**: The `getInfo()` method is defined in both `Book` and `Magazine` but behaves differently for each, providing specific details depending on the item type.
--   **Abstraction**: The `LibraryItem` class is `abstract` and cannot be instantiated directly. It serves as a blueprint, ensuring a consistent interface (`getInfo()`) for all types of library items.
+### Dependency Injection
+The dependency flow is as follows:
 
----
+**Repository → Service → Controller**
 
-## ⚙️ Installation & Setup
+- `StudentController` depends on `StudentService`
+- `StudentService` depends on `StudentRepository`
 
-Follow these steps to get the project running on your local machine.
+This makes the code more modular, testable, and maintainable.
 
-1.  **Clone the repository**
-    ```bash
-    git clone [https://github.com/your-username/library-management.git](https://github.com/your-username/library-management.git)
-    cd library-management
-    ```
-
-2.  **Install dependencies**
-    ```bash
-    npm install
-    ```
-
-3.  **Run the project**
-    ```bash
-    npx ts-node src/index.ts
-    ```
+### Asynchronous Operations
+All database interactions and API request handlers are implemented using `async/await`.
+This ensures that the Node.js event loop is never blocked, leading to a highly performant and scalable application.
+Proper error handling is implemented using `try…catch` blocks within async functions.
 
 ---
-
-## 🧩 How It Works
-
-1.  **`LibraryItem` (Abstract Class)**
-    * Defines the common blueprint for all items that can be stored in the library.
-    * Contains an `abstract` method `getInfo()` that every subclass is required to implement.
-
-2.  **`Book` & `Magazine` (Child Classes)**
-    * These classes `extend` the `LibraryItem` class.
-    * They provide their own specific implementations of the `getInfo()` method, demonstrating polymorphism.
-
-3.  **`Member`**
-    * Represents a library member who can borrow items.
-    * Stores a list of borrowed items privately (encapsulation).
-    * Provides public methods to borrow items and list what has been borrowed.
-
-4.  **`Library`**
-    * Manages the collections of all items and registered members.
-    * Provides methods to add new items, register new members, and display all available library items.
