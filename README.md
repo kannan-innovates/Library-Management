@@ -22,6 +22,7 @@ A beginner-friendly **Library Management System** implemented in **TypeScript** 
 
 Here is the file and directory structure for the project:
 
+```bash
 library-management/
 ├── src/
 │   ├── models/
